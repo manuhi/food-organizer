@@ -1,8 +1,7 @@
 import React from 'react';
-import {createStackNavigator} from '@react-navigation/stack';
 import {StyleSheet, SafeAreaView, ScrollView, View, Text} from 'react-native';
 
-function AddFoodScreen({navigation}) {
+const AddFoodScreen = ({navigation}) => {
   return (
     <SafeAreaView style={styles.outer}>
       <ScrollView>
@@ -11,20 +10,6 @@ function AddFoodScreen({navigation}) {
         </View>
       </ScrollView>
     </SafeAreaView>
-  );
-}
-
-const AddFoodStack = createStackNavigator();
-
-export const AddFoodStackScreen = () => {
-  return (
-    <AddFoodStack.Navigator
-      screenOptions={{
-        headerTintColor: 'orange',
-        headerStyle: {backgroundColor: '#4b4b4b'},
-      }}>
-      <AddFoodStack.Screen name="Wochenplan" component={AddFoodScreen} />
-    </AddFoodStack.Navigator>
   );
 };
 
@@ -41,3 +26,5 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
 });
+
+export default AddFoodScreen;
