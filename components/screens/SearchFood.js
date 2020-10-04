@@ -34,36 +34,39 @@ const SearchFoodScreen = ({route, navigation}) => {
           <Ionicons name="search" color="white" size={40} />
         </TouchableOpacity>
       </View>
-      <View style={styles.searchList}>
-        <Text style={styles.searchTitle}>{weekday}</Text>
-        <FlatList
-          data={foodList}
-          renderItem={({item}) => {
-            const color = item.id === selectedId ? 'white' : 'orange';
-            return (
-              <TouchableWithoutFeedback onPress={() => setSelectedId(item.id)}>
-                <View style={styles.item}>
-                  <View style={[styles.itemView]}>
-                    <Text style={{color: color}}>{item.name}</Text>
+      <View style={styles.searchListContainer}>
+        <View style={styles.searchList}>
+          <Text style={styles.searchTitle}>{weekday}</Text>
+          <FlatList
+            data={foodList}
+            renderItem={({item}) => {
+              const color = item.id === selectedId ? 'white' : 'orange';
+              return (
+                <TouchableWithoutFeedback
+                  onPress={() => setSelectedId(item.id)}>
+                  <View style={styles.item}>
+                    <Text style={{color: color, textAlign: 'center'}}>
+                      {item.name}
+                    </Text>
                   </View>
-                </View>
-              </TouchableWithoutFeedback>
-            );
-          }}
-          keyExtractor={(item) => item.id}
-        />
-      </View>
-      <View style={styles.searchButtonContainer}>
-        <TouchableOpacity onPress={() => navigation.navigate('Wochenplan')}>
-          <Text style={{color: 'white'}}>Zurück</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => {
-            setWeekday(weekday, {selectedId}.selectedId);
-            navigation.navigate('Wochenplan', {refresh: true});
-          }}>
-          <Text style={{color: 'white'}}>Speichern</Text>
-        </TouchableOpacity>
+                </TouchableWithoutFeedback>
+              );
+            }}
+            keyExtractor={(item) => item.id}
+          />
+        </View>
+        <View style={styles.searchButtonContainer}>
+          <TouchableOpacity onPress={() => navigation.navigate('Wochenplan')}>
+            <Text style={{color: 'white'}}>Zurück</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              setWeekday(weekday, {selectedId}.selectedId);
+              navigation.navigate('Wochenplan', {refresh: true});
+            }}>
+            <Text style={{color: 'white'}}>Speichern</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -77,13 +80,8 @@ const styles = StyleSheet.create({
   item: {
     backgroundColor: '#4b4b4b',
     padding: 10,
-    marginVertical: 5,
-    marginHorizontal: 16,
-  },
-  itemView: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
+    marginVertical: 6,
+    width: 300,
   },
   searchContainer: {
     flexDirection: 'row',
@@ -94,15 +92,18 @@ const styles = StyleSheet.create({
     margin: 10,
     padding: 5,
   },
+  searchListContainer: {
+    flexDirection: 'column',
+  },
   searchList: {
     alignItems: 'center',
   },
   searchTitle: {
     fontSize: 24,
     color: 'orange',
+    marginTop: 10,
   },
   searchButtonContainer: {
-    flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
     margin: 15,

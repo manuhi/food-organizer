@@ -1,12 +1,14 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import {useTheme} from 'react-native-paper';
 
 import {WeekListStackNavigator, AddFoodStackNavigator} from './StackNavigator';
 
 const Tab = createBottomTabNavigator();
 
 const BottomTabNavigator = () => {
+  const theme = useTheme();
   return (
     <Tab.Navigator
       screenOptions={({route}) => ({
@@ -21,10 +23,10 @@ const BottomTabNavigator = () => {
         },
       })}
       tabBarOptions={{
-        activeTintColor: 'orange',
-        inactiveTintColor: 'gray',
+        activeTintColor: theme.colors.text,
+        inactiveTintColor: theme.colors.accent,
         style: {
-          backgroundColor: '#4b4b4b',
+          backgroundColor: theme.colors.primary,
         },
       }}>
       <Tab.Screen name="Wochenplan" component={WeekListStackNavigator} />
