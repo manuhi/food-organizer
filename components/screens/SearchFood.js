@@ -5,55 +5,48 @@ import {
   SafeAreaView,
   FlatList,
   View,
-  Text,
-  TextInput,
 } from 'react-native';
-import {
-  TouchableOpacity,
-  TouchableWithoutFeedback,
-} from 'react-native-gesture-handler';
+import { Searchbar, Text, Title, useTheme } from 'react-native-paper';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {filterFoodList, setWeekday} from '../../service/data';
 
 const SearchFoodScreen = ({route, navigation}) => {
-  const [searchText, setSearchText] = useState('');
   const [foodList, setFoodList] = useState([]);
   const [selectedId, setSelectedId] = useState(null);
+  const [searchQuery, setSearchQuery] = React.useState('');
+  const onChangeSearch = query => setSearchQuery(query);
   const {weekday} = route.params;
+  const theme = useTheme();
   return (
     <SafeAreaView style={styles.outer}>
-      <View style={styles.searchContainer}>
-        <TextInput
-          placeholder="Suche nach Gerichten"
-          placeholderTextColor="white"
-          color="white"
-          onChangeText={(text) => setSearchText(text)}
+        <Searchbar
+          placeholder="Search"
+          onChangeText={onChangeSearch}
+          value={searchQuery}
+          onIconPress={() => {setFoodList(filterFoodList(searchQuery))}}
+          style={{margin: 5}}
         />
-        <TouchableOpacity
-          onPress={() => setFoodList(filterFoodList(searchText))}>
-          <Ionicons name="search" color="white" size={40} />
-        </TouchableOpacity>
-      </View>
-      <View style={styles.searchListContainer}>
-        <View style={styles.searchList}>
-          <Text style={styles.searchTitle}>{weekday}</Text>
+        <Title theme={theme.colors.primary} style={{textAlign: 'center'}}>{weekday}</Title>
           <FlatList
             data={foodList}
             renderItem={({item}) => {
-              const color = item.id === selectedId ? 'white' : 'orange';
+              const color = item.id === selectedId ? theme.colors.text : theme.colors.accent;
               return (
-                <TouchableWithoutFeedback
-                  onPress={() => setSelectedId(item.id)}>
-                  <View style={styles.item}>
-                    <Text style={{color: color, textAlign: 'center'}}>
-                      {item.name}
-                    </Text>
-                  </View>
-                </TouchableWithoutFeedback>
+                <View style={styles.searchContainer}>
+                  <Text>{item.name}</Text>
+                </View>
+                // <TouchableWithoutFeedback
+                // onPress={() => setSelectedId(item.id)}>
+                //   <View style={styles.item}>
+                //     <Text style={{color: color, textAlign: 'center'}}>
+                //       {item.name}
+                //     </Text>
+                //   </View>
+                // </TouchableWithoutFeedback>
               );
             }}
-            keyExtractor={(item) => item.id}
-          />
+            />
+            {/* 
         </View>
         <View style={styles.searchButtonContainer}>
           <TouchableOpacity onPress={() => navigation.navigate('Wochenplan')}>
@@ -66,8 +59,7 @@ const SearchFoodScreen = ({route, navigation}) => {
             }}>
             <Text style={{color: 'white'}}>Speichern</Text>
           </TouchableOpacity>
-        </View>
-      </View>
+        </View> */}
     </SafeAreaView>
   );
 };
@@ -75,40 +67,31 @@ const SearchFoodScreen = ({route, navigation}) => {
 const styles = StyleSheet.create({
   outer: {
     flex: 1,
-    backgroundColor: '#2b2b2b',
-  },
-  item: {
-    backgroundColor: '#4b4b4b',
-    padding: 10,
-    marginVertical: 6,
-    width: 300,
   },
   searchContainer: {
-    flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
-    borderWidth: 1,
-    borderColor: 'orange',
-    margin: 10,
+    marginLeft: 50,
+    marginRight: 50,
+    marginTop: 10,
     padding: 5,
   },
-  searchListContainer: {
-    flexDirection: 'column',
-  },
-  searchList: {
-    alignItems: 'center',
-  },
-  searchTitle: {
-    fontSize: 24,
-    color: 'orange',
-    marginTop: 10,
-  },
-  searchButtonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    margin: 15,
-    paddingTop: 40,
-  },
+  // searchListContainer: {
+  //   flexDirection: 'column',
+  // },
+  // searchList: {
+  //   alignItems: 'center',
+  // },
+  // searchTitle: {
+  //   fontSize: 24,
+  //   color: 'orange',
+  //   marginTop: 10,
+  // },
+  // searchButtonContainer: {
+  //   flexDirection: 'row',
+  //   justifyContent: 'space-between',
+  //   margin: 15,
+  //   paddingTop: 40,
+  // },
 });
 
 export default SearchFoodScreen;

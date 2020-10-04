@@ -28,9 +28,10 @@ const App = () => {
     colors: {
       ...NavigationDefaultTheme.colors,
       ...PaperDefaultTheme.colors,
-      primary: '#009387',
+      primary: '#9999FF',
       background: '#ffffff',
       text: '#333333',
+      accent: '#606060',
     },
   };
   const CustomDarkTheme = {
@@ -39,7 +40,7 @@ const App = () => {
     colors: {
       ...NavigationDarkTheme.colors,
       ...PaperDarkTheme.colors,
-      primary: '#009387',
+      primary: '#9999FF',
       background: '#333333',
       text: '#ffffff',
     },

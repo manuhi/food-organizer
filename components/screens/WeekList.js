@@ -8,22 +8,45 @@ import {
   Text,
   Image,
 } from 'react-native';
-import {TouchableOpacity} from 'react-native-gesture-handler';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { getWeekList, setWeekday, getFood } from '../../service/data';
-import { Card, Title, Paragraph, useTheme } from 'react-native-paper';
+import { Card, useTheme } from 'react-native-paper';
 
-const displayFoodNameAndImage = (item) => {
+const renderCard = (item, theme, navigation) => {
   if (item.foodId != null) {
     const food = getFood(item.foodId);
     return (
       <>
-        <Image style={styles.logo} source={{uri: food.image}} />
-        <Text style={styles.weeklistTitle}>{food.name}</Text>
+        <Card onPress={() => 
+          {navigation.navigate('Gericht suchen', {
+            weekday: item.weekday,
+          })}} style={{margin: 5}}
+        >
+          <Card.Title
+            title={item.weekday}
+            subtitle={food.name}
+            subtitleStyle={{fontSize: 16}}
+            left={(props) => <Image style={styles.logo} source={{uri: food.image}} />}
+            right={(props) => 
+              <Ionicons {...props} name="trash" color={theme.colors.text} size={25} 
+                onPress={() => 
+                  {setWeekday(item.weekday, null);
+                     navigation.navigate('Wochenplan', {refresh: true});
+                  }} 
+              />}
+            theme={theme.colors.background}
+          />
+        </Card>
       </>
     );
   } else {
-    return <Text style={styles.weeklistTitleNA}>Kein Gericht geplant</Text>;
+    return <Card onPress={() => 
+              {navigation.navigate('Gericht suchen', {
+                weekday: item.weekday,
+              })}} style={{margin: 5}}
+            >
+              <Card.Title title="Kein Gericht geplant" />
+            </Card>
   }
 };
 
@@ -36,12 +59,7 @@ const WeekList = ({ route, navigation }) => {
         <FlatList
           data={getWeekList()}
           renderItem={({ item }) => (
-            <Card.Title
-              title="Card Title"
-              subtitle="Card Subtitle"
-              left={(props) => <Icon {...props} icon="folder" />}
-              right={(props) => <IconButton {...props} icon="more-vert" onPress={() => {}} />}
-            />
+            renderCard(item, theme, navigation)
             // <View style={styles.itemContainer}>
             //   <Text style={{color: 'white'}}>{item.weekday}</Text>
             //   <View style={styles.itemView}>
