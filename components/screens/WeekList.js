@@ -5,18 +5,49 @@ import {
   SafeAreaView,
   FlatList,
   View,
-  Text,
   Image,
+  Animated
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { getWeekList, setWeekday, getFood } from '../../service/data';
 import { Card, useTheme } from 'react-native-paper';
+import Swipeable from 'react-native-gesture-handler/Swipeable'
+
+const AnimatedIcon = Animated.createAnimatedComponent(Ionicons);
+
+const RightActions = (progress, dragX, item, theme, navigation) => {
+  const scale = dragX.interpolate({
+    inputRange: [-150, 0],
+    outputRange: [10, 0]
+  })
+  return (
+    <View style={{ justifyContent: 'center' }}>
+      <AnimatedIcon
+        name='trash'
+        style={{
+          textAlign: 'center',
+          paddingHorizontal: 10,
+          fontWeight: '1200',
+          transform: [{ scale }],
+          opacity: 0.7
+        }}
+        color={theme.colors.text}
+        onPress={() => {
+          setWeekday(item.weekday, null);
+          navigation.navigate('Wochenplan', {refresh: true});
+        }}
+      />
+    </View>
+  )
+ }
 
 const renderCard = (item, theme, navigation) => {
   if (item.foodId != null) {
     const food = getFood(item.foodId);
     return (
-      <>
+      <Swipeable 
+      renderRightActions={(progress, dragX) => 
+      (RightActions(progress, dragX, item, theme, navigation))}>
         <Card onPress={() => 
           {navigation.navigate('Gericht suchen', {
             weekday: item.weekday,
@@ -27,17 +58,17 @@ const renderCard = (item, theme, navigation) => {
             subtitle={food.name}
             subtitleStyle={{fontSize: 16}}
             left={(props) => <Image style={styles.logo} source={{uri: food.image}} />}
-            right={(props) => 
-              <Ionicons {...props} name="trash" color={theme.colors.text} size={25} 
-                onPress={() => 
-                  {setWeekday(item.weekday, null);
-                     navigation.navigate('Wochenplan', {refresh: true});
-                  }} 
-              />}
+            // right={(props) => 
+            //   <Ionicons {...props} name="trash" color={theme.colors.text} size={25} 
+            //     onPress={() => 
+            //       {setWeekday(item.weekday, null);
+            //          navigation.navigate('Wochenplan', {refresh: true});
+            //       }} 
+            //   />}
             theme={theme.colors.background}
           />
         </Card>
-      </>
+      </Swipeable>
     );
   } else {
     return <Card onPress={() => 

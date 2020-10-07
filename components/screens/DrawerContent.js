@@ -20,7 +20,7 @@ export function DrawerContent(props) {
     <View style={{flex: 1}}>
       <DrawerContentScrollView {...props}>
         <View style={styles.drawerContent}>
-          <Drawer.Section style={styles.drawerSection}>
+          <Drawer.Section style={{...styles.drawerSection}}>
             <DrawerItem
               icon={({color, size}) => (
                 <Ionicons name="restaurant" color={color} size={size} />

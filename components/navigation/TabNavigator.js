@@ -23,8 +23,8 @@ const BottomTabNavigator = () => {
         },
       })}
       tabBarOptions={{
-        activeTintColor: theme.colors.text,
-        inactiveTintColor: theme.colors.accent,
+        activeTintColor: theme.colors.accent,
+        inactiveTintColor: theme.colors.text,
         style: {
           backgroundColor: theme.colors.primary,
         },

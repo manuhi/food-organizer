@@ -31,7 +31,8 @@ const App = () => {
       primary: '#9999FF',
       background: '#ffffff',
       text: '#333333',
-      accent: '#606060',
+      surface: '#F5F5F5'
+      // accent: '#606060',
     },
   };
   const CustomDarkTheme = {
@@ -43,6 +44,7 @@ const App = () => {
       primary: '#9999FF',
       background: '#333333',
       text: '#ffffff',
+      surface: '#444444',
     },
   };
   const theme = isDarkTheme ? CustomDarkTheme : CustomDefaultTheme;
