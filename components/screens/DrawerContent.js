@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React from 'react';
+import React, { useContext } from 'react';
 import {View, StyleSheet} from 'react-native';
 import {
   useTheme,
@@ -9,13 +9,14 @@ import {
   Switch,
 } from 'react-native-paper';
 import {DrawerContentScrollView, DrawerItem} from '@react-navigation/drawer';
+import { PreferencesContext } from '../PreferencesContext'
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-// import {AuthContext} from '../components/context';
-
 export function DrawerContent(props) {
-  const paperTheme = useTheme();
+  const theme = useTheme();
+  const { toggleTheme, isDarkTheme } = useContext(PreferencesContext);
+
   return (
     <View style={{flex: 1}}>
       <DrawerContentScrollView {...props}>
@@ -33,15 +34,11 @@ export function DrawerContent(props) {
             />
           </Drawer.Section>
           <Drawer.Section title="Einstellungen">
-            <TouchableRipple
-              onPress={() => {
-                // toggleTheme();
-                console.log('Toggle theme');
-              }}>
+            <TouchableRipple onPress={() => toggleTheme()}>
               <View style={styles.preference}>
                 <Text>Dark Theme</Text>
                 <View pointerEvents="none">
-                  <Switch value={paperTheme.dark} />
+                  <Switch value={isDarkTheme} />
                 </View>
               </View>
             </TouchableRipple>
